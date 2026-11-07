@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PluginCard from '../../components/PluginCard.astro';
 import { plugins } from '../../data/plugins';
 import { site } from '../../data/site';
+import { url } from '../../lib/url';
 ---
 
 <Base title="Plugins" description={`Every ${site.name} audio plugin in one place.`}>
@@ -12,8 +13,8 @@ import { site } from '../../data/site';
       <span class="eyebrow reveal">Catalog</span>
       <h1 class="reveal" style="--delay:.05s">Plugins</h1>
       <p class="lead reveal" style="--delay:.1s">
-        Dive into our tools. Have a plugin idea? Send it to
-        <a class="accent" href={`mailto:${site.email}`}>{site.email}</a>.
+        Dive into our tools. Every plugin is free. Have a plugin idea?
+        <a class="accent" href={url('contact')}>Get in touch</a>.
       </p>
     </div>
   </section>

@@ -4,7 +4,6 @@ export const site = {
   tagline: 'Sound, in every color.',
   description:
     'Spectra builds focused, musical audio plugins for producers who would rather make music than menu-dive.',
-  email: 'hello@spectra.audio',
   socials: [
     { label: 'YouTube', href: 'https://youtube.com/', icon: 'youtube' },
     { label: 'Instagram', href: 'https://instagram.com/', icon: 'instagram' },

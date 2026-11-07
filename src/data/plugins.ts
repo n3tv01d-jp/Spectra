@@ -20,13 +20,10 @@ export interface Plugin {
   headline: string;
   /** Paragraph on the detail page. */
   description: string;
-  /** Price in USD. 0 = free. */
-  price: number;
   status: PluginStatus;
   isNew?: boolean;
-  formats: string[];
-  /** Where "Buy" / "Download" goes (Gumroad, Lemon Squeezy, etc.). */
-  buyUrl?: string;
+  /** Where the "Download" button goes. */
+  downloadUrl?: string;
   /** Optional path inside /public. */
   image?: string;
   /** Hue (0-360) for the generated faceplate. */
@@ -45,7 +42,7 @@ const commonHighlights = [
   { title: 'Clean DSP', body: 'Oversampled where it matters, so the top end stays smooth.' },
   { title: 'Light on CPU', body: 'Stack dozens of instances without freezing tracks.' },
   { title: 'Preset browser', body: 'Factory presets to start from, and your own saved in one click.' },
-  { title: 'Free updates', body: 'Buy once and get every 1.x update at no extra cost.' },
+  { title: 'Free updates', body: 'Every plugin and every update is free. No account needed.' },
 ];
 
 export const plugins: Plugin[] = [
@@ -57,11 +54,9 @@ export const plugins: Plugin[] = [
     headline: 'Bend light. Bend sound.',
     description:
       'Prism splits audio into three bands and gives each its own saturation stage, from soft tape warmth to hard digital fold. Blend it back in with the mix knob and your sound gets more weight without getting muddy.',
-    price: 39,
     status: 'available',
     isNew: true,
-    formats: ['VST3', 'AU', 'CLAP', 'AAX'],
-    buyUrl: '#',
+    downloadUrl: '#',
     hue: 262,
     controls: ['Low', 'Mid', 'High', 'Drive', 'Mix'],
     features: [
@@ -79,10 +74,8 @@ export const plugins: Plugin[] = [
     headline: 'Space with a glow.',
     description:
       'Halo is a shimmer reverb tuned for modern production. Octave and fifth shifters feed back into a dense diffusion network for tails that rise instead of fade.',
-    price: 29,
     status: 'available',
-    formats: ['VST3', 'AU', 'CLAP'],
-    buyUrl: '#',
+    downloadUrl: '#',
     hue: 200,
     controls: ['Size', 'Shimmer', 'Tone', 'Decay', 'Mix'],
     features: [
@@ -100,10 +93,8 @@ export const plugins: Plugin[] = [
     headline: 'Give it a heartbeat.',
     description:
       'Pulse turns static pads and chords into rhythmic parts. Draw a pattern, add swing, and let Pulse chop your audio in time with the host.',
-    price: 0,
     status: 'available',
-    formats: ['VST3', 'AU', 'CLAP'],
-    buyUrl: '#',
+    downloadUrl: '#',
     hue: 80,
     controls: ['Rate', 'Swing', 'Attack', 'Release', 'Depth'],
     features: [
@@ -120,9 +111,7 @@ export const plugins: Plugin[] = [
     summary: 'We are always working on something new. Join the Discord to hear first.',
     headline: 'Something new is coming.',
     description: 'Stay tuned.',
-    price: 0,
     status: 'coming-soon',
-    formats: [],
     hue: 0,
     controls: ['?', '?', '?'],
     features: [],
@@ -132,7 +121,9 @@ export const plugins: Plugin[] = [
 
 export const releasedPlugins = plugins.filter((p) => p.status === 'available');
 
+/** Every plugin ships in this format. */
+export const PLUGIN_FORMAT = 'VST3';
+
 export function formatPrice(p: Plugin) {
-  if (p.status === 'coming-soon') return 'Soon';
-  return p.price === 0 ? 'Free' : `$${p.price}`;
+  return p.status === 'coming-soon' ? 'Soon' : 'Free';
 }

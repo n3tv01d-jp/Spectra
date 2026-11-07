@@ -16,7 +16,7 @@ npm run preview
 | What | Where |
 | --- | --- |
 | Plugins (name, price, features, buy link…) | `src/data/plugins.ts` |
-| Site name, tagline, email, social links | `src/data/site.ts` |
+| Site name, tagline, social links | `src/data/site.ts` |
 | Colors, fonts, spacing | `src/styles/global.css` (`:root`) |
 | Plugin screenshots | `public/plugins/<slug>.webp`, then set `image: 'plugins/<slug>.webp'` |
 

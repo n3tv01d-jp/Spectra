@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Faceplate from '../../components/Faceplate.astro';
 import PluginCard from '../../components/PluginCard.astro';
 import Icon from '../../components/Icon.astro';
-import { formatPrice, releasedPlugins, type Plugin } from '../../data/plugins';
+import { PLUGIN_FORMAT, releasedPlugins, type Plugin } from '../../data/plugins';
 import { site } from '../../data/site';
 import { url } from '../../lib/url';
 
@@ -12,9 +12,7 @@ export function getStaticPaths() {
 }
 
 const { plugin } = Astro.props as { plugin: Plugin };
-const free = plugin.price === 0;
-const buyLabel = free ? 'Download free' : `Buy now · ${formatPrice(plugin)}`;
-const buyHref = plugin.buyUrl ?? '#';
+const downloadHref = plugin.downloadUrl ?? '#';
 const others = releasedPlugins.filter((p) => p.slug !== plugin.slug).slice(0, 3);
 ---
 
@@ -36,11 +34,11 @@ const others = releasedPlugins.filter((p) => p.slug !== plugin.slug).slice(0, 3)
           {plugin.isNew && <span class="badge badge-lime">New</span>}
         </p>
         <div class="ctas reveal" style="--delay:.15s">
-          <a href={buyHref} class:list={['btn', free ? 'btn-lime' : 'btn-primary']}>{buyLabel}</a>
+          <a href={downloadHref} class="btn btn-lime">Download free</a>
           <a href="#features" class="btn btn-ghost">Explore features</a>
         </div>
         <ul class="formats reveal" style="--delay:.2s">
-          {plugin.formats.map((f) => <li>{f}</li>)}
+          <li>{PLUGIN_FORMAT}</li>
         </ul>
       </div>
 
@@ -93,11 +91,9 @@ const others = releasedPlugins.filter((p) => p.slug !== plugin.slug).slice(0, 3)
       <div class="cta reveal" style={`--h:${plugin.hue}`}>
         <span class="eyebrow">Support independent DSP</span>
         <h2>Get {plugin.name}.</h2>
-        <p class="lead">
-          {free ? 'Free forever. No account, no catch.' : `One-time purchase of ${formatPrice(plugin)}. Free 1.x updates.`}
-        </p>
-        <a href={buyHref} class:list={['btn', free ? 'btn-lime' : 'btn-primary']}>{buyLabel}</a>
-        <p class="small">Questions? <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p class="lead">Free forever. No account, no catch.</p>
+        <a href={downloadHref} class="btn btn-lime">Download free</a>
+        <p class="small">Questions? <a href={url('contact')}>Get in touch</a></p>
       </div>
     </div>
   </section>

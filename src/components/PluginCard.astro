@@ -10,7 +10,6 @@ interface Props {
 }
 const { plugin, delay = 0 } = Astro.props;
 const soon = plugin.status === 'coming-soon';
-const free = !soon && plugin.price === 0;
 const detail = url(`plugins/${plugin.slug}`);
 ---
 
@@ -40,8 +39,8 @@ const detail = url(`plugins/${plugin.slug}`);
           </span>
         ) : (
           <>
-            <a href={plugin.buyUrl ?? detail} class:list={['btn btn-sm', free ? 'btn-lime' : 'btn-primary']}>
-              {free ? 'Grab for free' : 'Buy now'}
+            <a href={plugin.downloadUrl ?? detail} class="btn btn-sm btn-lime">
+              Grab for free
             </a>
             <a href={detail} class="btn btn-sm btn-ghost">
               Learn more <Icon name="arrow" size={16} />

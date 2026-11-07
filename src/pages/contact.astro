@@ -17,13 +17,8 @@ const topics = [
       <span class="eyebrow reveal">Contact</span>
       <h1 class="reveal" style="--delay:.05s">Let's talk sound.</h1>
       <p class="lead reveal" style="--delay:.1s">
-        The quickest way to reach us is email. We usually reply within a day or two.
+        The quickest way to reach us is on social media. We usually reply within a day or two.
       </p>
-      <a href={`mailto:${site.email}`} class="mail reveal" style="--delay:.15s">
-        <Icon name="mail" size={26} />
-        <span>{site.email}</span>
-        <Icon name="arrow" size={22} />
-      </a>
 
       <div class="topics">
         {
@@ -37,7 +32,7 @@ const topics = [
       </div>
 
       <div class="socials reveal">
-        <span>Or find us on</span>
+        <span>Find us on</span>
         {
           site.socials.map((s) => (
             <a href={s.href} target="_blank" rel="noopener">
@@ -74,32 +69,6 @@ const topics = [
   }
   .lead {
     margin-top: 20px;
-  }
-  .mail {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 40px;
-    padding: 20px 28px;
-    border-radius: 999px;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
-    font-family: var(--font-display);
-    font-size: clamp(18px, 3vw, 28px);
-    font-weight: 600;
-    max-width: 100%;
-    transition:
-      border-color 0.2s,
-      color 0.2s,
-      transform 0.2s;
-  }
-  .mail span {
-    overflow-wrap: anywhere;
-  }
-  .mail:hover {
-    border-color: var(--lime);
-    color: var(--lime);
-    transform: translateY(-2px);
   }
   .topics {
     display: grid;
