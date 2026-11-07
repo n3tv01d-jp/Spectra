@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const topics = [
+  { title: 'Support', body: 'Install issues, licensing, or something not sounding right.' },
+  { title: 'Feature ideas', body: 'Got a plugin idea or a feature request? We read every one.' },
+  { title: 'Collabs & press', body: 'Preset packs, artist collaborations, reviews and features.' },
+];
+---
+
+<Base title="Contact" description={`Get in touch with ${site.name}.`}>
+  <section class="contact">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <span class="eyebrow reveal">Contact</span>
+      <h1 class="reveal" style="--delay:.05s">Let's talk sound.</h1>
+      <p class="lead reveal" style="--delay:.1s">
+        The quickest way to reach us is email. We usually reply within a day or two.
+      </p>
+      <a href={`mailto:${site.email}`} class="mail reveal" style="--delay:.15s">
+        <Icon name="mail" size={26} />
+        <span>{site.email}</span>
+        <Icon name="arrow" size={22} />
+      </a>
+
+      <div class="topics">
+        {
+          topics.map((t, i) => (
+            <div class="topic reveal" style={`--delay:${0.2 + i * 0.06}s`}>
+              <h2>{t.title}</h2>
+              <p>{t.body}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="socials reveal">
+        <span>Or find us on</span>
+        {
+          site.socials.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener">
+              <Icon name={s.icon} size={18} /> {s.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(56px, 9vw, 120px);
+  }
+  .glow {
+    position: absolute;
+    inset: -30% 0 auto;
+    height: 700px;
+    background: radial-gradient(40% 50% at 70% 40%, rgb(114 59 250 / 0.28), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+  }
+  .container {
+    position: relative;
+  }
+  h1 {
+    font-size: clamp(52px, 9vw, 112px);
+    margin-top: 16px;
+    letter-spacing: -0.04em;
+  }
+  .lead {
+    margin-top: 20px;
+  }
+  .mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+    padding: 20px 28px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    font-family: var(--font-display);
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 600;
+    max-width: 100%;
+    transition:
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.2s;
+  }
+  .mail span {
+    overflow-wrap: anywhere;
+  }
+  .mail:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+    transform: translateY(-2px);
+  }
+  .topics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 72px;
+  }
+  .topic {
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .topic h2 {
+    font-size: 22px;
+  }
+  .topic p {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin-top: 48px;
+    color: var(--text-faint);
+    font-size: 15px;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+  }
+  .socials a:hover {
+    color: var(--lime);
+  }
+  @media (max-width: 800px) {
+    .topics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

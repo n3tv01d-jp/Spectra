@@ -1,0 +1,151 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { releasedPlugins } from '../data/plugins';
+import { url } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="connect">
+      <h2>Connect with us.</h2>
+      <div class="socials">
+        {
+          site.socials.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="social">
+              <Icon name={s.icon} size={20} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="brand">
+        <a href={url('')} aria-label="Spectra home"><Logo /></a>
+        <p>{site.description}</p>
+      </div>
+      <div>
+        <h3>Plugins</h3>
+        <ul>
+          {releasedPlugins.map((p) => <li><a href={url(`plugins/${p.slug}`)}>{p.name}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h3>Studio</h3>
+        <ul>
+          <li><a href={url('plugins')}>All plugins</a></li>
+          <li><a href={url('contact')}>Contact</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span>Copyright © {year} {site.name}. All rights reserved.</span>
+      <span class="made">Made for producers, by producers.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 72px;
+    padding-bottom: 32px;
+    background: linear-gradient(180deg, var(--bg), #141417);
+  }
+  .connect {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--border);
+  }
+  .connect h2 {
+    font-size: clamp(32px, 5vw, 52px);
+  }
+  .socials {
+    display: flex;
+    gap: 10px;
+  }
+  .social {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background 0.2s,
+      transform 0.2s;
+  }
+  .social:hover {
+    color: var(--charcoal);
+    background: var(--lime);
+    border-color: var(--lime);
+    transform: translateY(-2px);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    padding-block: 56px;
+  }
+  .brand p {
+    margin-top: 16px;
+    color: var(--text-muted);
+    max-width: 40ch;
+    font-size: 15px;
+  }
+  h3 {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  li a {
+    color: var(--text-muted);
+    font-size: 15px;
+    transition: color 0.2s;
+    overflow-wrap: anywhere;
+  }
+  li a:hover {
+    color: var(--text);
+  }
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

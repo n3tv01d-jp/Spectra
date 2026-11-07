@@ -1,0 +1,142 @@
+---
+import Faceplate from './Faceplate.astro';
+import Icon from './Icon.astro';
+import { formatPrice, type Plugin } from '../data/plugins';
+import { url } from '../lib/url';
+
+interface Props {
+  plugin: Plugin;
+  delay?: number;
+}
+const { plugin, delay = 0 } = Astro.props;
+const soon = plugin.status === 'coming-soon';
+const free = !soon && plugin.price === 0;
+const detail = url(`plugins/${plugin.slug}`);
+---
+
+<article class:list={['card reveal', { soon }]} style={`--delay:${delay}s`}>
+  <a href={soon ? undefined : detail} class="media" tabindex="-1" aria-hidden="true">
+    <Faceplate plugin={plugin} />
+  </a>
+
+  <div class="body">
+    <div class="meta">
+      <span class="category">
+        {plugin.category}
+        {plugin.isNew && <span class="badge badge-lime">New</span>}
+      </span>
+      <span class="price">{formatPrice(plugin)}</span>
+    </div>
+    <h3>
+      {soon ? plugin.name : <a href={detail}>{plugin.name}</a>}
+    </h3>
+    <p>{plugin.summary}</p>
+
+    <div class="buttons">
+      {
+        soon ? (
+          <span class="btn btn-sm" aria-disabled="true">
+            Coming soon
+          </span>
+        ) : (
+          <>
+            <a href={plugin.buyUrl ?? detail} class:list={['btn btn-sm', free ? 'btn-lime' : 'btn-primary']}>
+              {free ? 'Grab for free' : 'Buy now'}
+            </a>
+            <a href={detail} class="btn btn-sm btn-ghost">
+              Learn more <Icon name="arrow" size={16} />
+            </a>
+          </>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    transition:
+      border-color 0.3s ease,
+      transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 0.4s ease;
+  }
+  .card:not(.soon):hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgb(114 59 250 / 0.45);
+  }
+  .media {
+    position: relative;
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .media :global(.face),
+  .media :global(.shot) {
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .card:not(.soon):hover .media :global(.face),
+  .card:not(.soon):hover .media :global(.shot) {
+    transform: scale(1.025);
+  }
+  .category {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .category .badge {
+    height: 20px;
+    padding-inline: 8px;
+    font-size: 11px;
+  }
+  .body {
+    padding: 20px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-family: var(--font-display);
+  }
+  .price {
+    color: var(--lime);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 15px;
+  }
+  .soon .price {
+    color: var(--text-faint);
+  }
+  h3 {
+    font-size: 30px;
+    margin-top: 10px;
+  }
+  h3 a:hover {
+    color: var(--violet-soft);
+  }
+  p {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 15px;
+    flex: 1;
+  }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+</style>

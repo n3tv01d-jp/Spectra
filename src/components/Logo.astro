@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+---
+
+<span class="logo">
+  <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+    <rect width="32" height="32" rx="9" fill="#26262E" />
+    <g fill="none" stroke-linecap="round" stroke-width="2.6">
+      <path d="M7 19v-6" stroke="#723BFA" />
+      <path d="M12.5 23V9" stroke="#723BFA" />
+      <path d="M18 26V6" stroke="#9A72FF" />
+      <path d="M23.5 21v-10" stroke="#B9F500" />
+    </g>
+  </svg>
+  <span class="word">{site.name}</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .word {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+</style>

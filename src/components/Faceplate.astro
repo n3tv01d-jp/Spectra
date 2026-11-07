@@ -1,0 +1,223 @@
+---
+// A generated "plugin UI" visual, used when a plugin has no screenshot.
+import type { Plugin } from '../data/plugins';
+import { url } from '../lib/url';
+
+interface Props {
+  plugin: Plugin;
+  size?: 'card' | 'hero';
+}
+const { plugin, size = 'card' } = Astro.props;
+const soon = plugin.status === 'coming-soon';
+
+// Deterministic pseudo-random from slug, so the art is stable between builds.
+let seed = [...plugin.slug].reduce((a, c) => a * 31 + c.charCodeAt(0), 7) >>> 0;
+const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
+
+const knobs = plugin.controls.map((label) => ({ label, angle: Math.round(-135 + rand() * 270) }));
+
+// Spectrum curve
+const pts = Array.from({ length: 48 }, (_, i) => {
+  const x = (i / 47) * 400;
+  const base = 70 + Math.sin(i / 4 + rand()) * 18 + Math.sin(i / 1.7) * 8;
+  const y = Math.max(14, Math.min(108, base - Math.exp(-((i - 16) ** 2) / 40) * 40 + rand() * 8));
+  return [x, y];
+});
+const line = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+const area = `${line} L400 120 L0 120 Z`;
+const gid = `g-${plugin.slug}-${size}`;
+---
+
+{
+  plugin.image ? (
+    <img class:list={['shot', size]} src={url(plugin.image)} alt={`${plugin.name} interface`} loading="lazy" />
+  ) : (
+    <div class:list={['face', size, { soon }]} style={`--h:${plugin.hue}`} aria-hidden="true">
+      <div class="top">
+        <span class="title">{plugin.name}</span>
+        <span class="dots">
+          <i />
+          <i />
+          <i />
+        </span>
+      </div>
+      <div class="screen">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="hsl(var(--h) 90% 65% / .55)" />
+              <stop offset="1" stop-color="hsl(var(--h) 90% 65% / 0)" />
+            </linearGradient>
+          </defs>
+          {[30, 60, 90].map((y) => (
+            <line x1="0" x2="400" y1={y} y2={y} class="grid" />
+          ))}
+          <path d={area} fill={`url(#${gid})`} />
+          <path d={line} class="curve" />
+        </svg>
+        {soon && <span class="soon-label">In development</span>}
+      </div>
+      <div class="knobs">
+        {knobs.map((k) => (
+          <div class="knob-wrap">
+            <div class="knob" style={`--a:${k.angle}deg`}>
+              <span class="ind" />
+            </div>
+            <span class="label">{k.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .shot {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 14px;
+  }
+  .face {
+    --c: hsl(var(--h) 90% 66%);
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    padding: 4.5% 6% 4%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 5%;
+    background:
+      radial-gradient(120% 90% at 50% 0%, hsl(var(--h) 60% 30% / 0.35), transparent 60%),
+      linear-gradient(180deg, #24242b, #1a1a1f);
+    border: 1px solid #34343e;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.05),
+      0 30px 60px -30px hsl(var(--h) 80% 40% / 0.5);
+    container-type: inline-size;
+    overflow: hidden;
+  }
+  .face.soon {
+    --c: #6e6e7a;
+    background: repeating-linear-gradient(135deg, #1f1f25 0 12px, #222229 12px 24px);
+    box-shadow: none;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(11px, 4.4cqi, 30px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c);
+  }
+  .dots {
+    display: flex;
+    gap: 5px;
+  }
+  .dots i {
+    width: clamp(4px, 1.4cqi, 8px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #3c3c47;
+  }
+  .dots i:first-child {
+    background: var(--c);
+    box-shadow: 0 0 10px var(--c);
+  }
+  .screen {
+    position: relative;
+    border-radius: 10px;
+    background: #121215;
+    border: 1px solid #2b2b33;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .screen svg {
+    width: 100%;
+    height: 100%;
+  }
+  .grid {
+    stroke: #26262e;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .curve {
+    fill: none;
+    stroke: var(--c);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 6px var(--c));
+  }
+  .soon .curve,
+  .soon path {
+    opacity: 0.35;
+  }
+  .soon-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: clamp(10px, 3cqi, 18px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .knobs {
+    display: flex;
+    justify-content: space-between;
+    gap: 4%;
+  }
+  .knob-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6cqi;
+    min-width: 0;
+  }
+  .knob {
+    position: relative;
+    width: min(100%, 10.5cqi);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 30%, #44444f, #24242b 70%),
+      #24242b;
+    box-shadow:
+      0 0 0 2px #121215,
+      0 0 0 3.5px hsl(var(--h) 70% 55% / 0.35),
+      0 6px 14px rgb(0 0 0 / 0.5);
+    transform: rotate(var(--a));
+  }
+  .soon .knob {
+    box-shadow:
+      0 0 0 2px #121215,
+      0 0 0 3.5px #34343e;
+  }
+  .ind {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    width: 9%;
+    height: 30%;
+    border-radius: 4px;
+    background: var(--c);
+    transform: translateX(-50%);
+  }
+  .label {
+    font-size: clamp(7px, 2.2cqi, 13px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+</style>
