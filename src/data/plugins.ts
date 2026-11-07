@@ -52,6 +52,7 @@ export const plugins: Plugin[] = [
     status: 'available',
     isNew: true,
     downloadUrl: 'https://github.com/n3tv01d-jp/SpectraShell/releases/latest',
+    image: 'plugins/spectrashell.png',
     hue: 262,
     controls: ['Decay', 'Bright', 'Width', 'Low Cut', 'Mix'],
     features: [
@@ -88,6 +89,7 @@ export const plugins: Plugin[] = [
     status: 'available',
     isNew: true,
     downloadUrl: 'https://github.com/n3tv01d-jp/SpectraDrive/releases/latest',
+    image: 'plugins/spectradrive.png',
     hue: 28,
     controls: ['Drive', 'Even', 'Tone', 'Clean Lows', 'Mix'],
     features: [

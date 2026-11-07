@@ -34,7 +34,7 @@ const gid = `g-${plugin.slug}-${size}`;
 
 {
   plugin.image ? (
-    <img class:list={['shot', size]} src={url(plugin.image)} alt={`${plugin.name} interface`} loading="lazy" />
+    <img class:list={['shot', size]} src={url(plugin.image)} alt={`${plugin.name} interface`} loading={size === 'hero' ? 'eager' : 'lazy'} />
   ) : (
     <div class:list={['face', size, { soon }]} style={`--h:${plugin.hue}`} aria-hidden="true">
       <div class="top">
@@ -79,7 +79,10 @@ const gid = `g-${plugin.slug}-${size}`;
   .shot {
     width: 100%;
     aspect-ratio: 16 / 10;
-    object-fit: cover;
+    /* contain, not cover: the screenshots are wider than 16:10 and cover would crop the side knobs */
+    object-fit: contain;
+    background: #0f0f13;
+    border: 1px solid #34343e;
     border-radius: 14px;
   }
   .face {
