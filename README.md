@@ -1,6 +1,8 @@
 # Spectra
 
 Plugin showcase site built with [Astro](https://astro.build), deployed to GitHub Pages.
+https://n3tv01d-jp.github.io/Spectra/
+
 
 ## Develop
 
