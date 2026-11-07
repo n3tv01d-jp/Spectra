@@ -1,3 +1,7 @@
+// Copyright (C) 2026 Spectra
+// Licensed under the GNU Affero General Public License v3.0 (AGPLv3).
+// See the LICENSE file in the project root for details.
+
 // @ts-check
 import { defineConfig } from 'astro/config';
 

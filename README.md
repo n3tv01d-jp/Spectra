@@ -32,3 +32,10 @@ Without a screenshot, a generated faceplate tinted with the plugin's `hue` is sh
 The workflow passes the correct `SITE` and `BASE_PATH` automatically, so it works for
 `https://<user>.github.io/<repo>/`, `https://<user>.github.io/`, or a custom domain.
 To test a project-site build locally: `BASE_PATH=/Spectra npm run build && npm run preview`.
+
+## License
+
+Copyright (C) 2026 Spectra
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPLv3).
+See the [LICENSE](LICENSE) file for the full text.

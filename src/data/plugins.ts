@@ -1,3 +1,7 @@
+// Copyright (C) 2026 Spectra
+// Licensed under the GNU Affero General Public License v3.0 (AGPLv3).
+// See the LICENSE file in the project root for details.
+
 // ---------------------------------------------------------------------------
 // Your plugins live here. Add, remove or edit entries and the home page,
 // the /plugins listing and each /plugins/<slug> detail page update automatically.
