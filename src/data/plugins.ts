@@ -40,73 +40,78 @@ export interface Plugin {
   highlights: { title: string; body: string }[];
 }
 
-const commonHighlights = [
-  { title: 'Low latency', body: 'Built for tracking and live use with near-zero added latency.' },
-  { title: 'Fast workflow', body: 'Every control is on one screen. No hidden pages, no menu-diving.' },
-  { title: 'Clean DSP', body: 'Oversampled where it matters, so the top end stays smooth.' },
-  { title: 'Light on CPU', body: 'Stack dozens of instances without freezing tracks.' },
-  { title: 'Preset browser', body: 'Factory presets to start from, and your own saved in one click.' },
-  { title: 'Free updates', body: 'Every plugin and every update is free. No account needed.' },
-];
-
 export const plugins: Plugin[] = [
   {
-    slug: 'prism',
-    name: 'Prism',
-    category: 'Spectral Saturator',
-    summary: 'Split your signal into bands and saturate each one with its own character.',
-    headline: 'Bend light. Bend sound.',
+    slug: 'spectrashell',
+    name: 'SpectraShell',
+    category: 'Harmonic Resonator',
+    summary: 'Tune a bank of resonators to the notes you pick and make drums, noise or vocals ring in key.',
+    headline: 'Make anything ring in key.',
     description:
-      'Prism splits audio into three bands and gives each its own saturation stage, from soft tape warmth to hard digital fold. Blend it back in with the mix knob and your sound gets more weight without getting muddy.',
+      'SpectraShell tunes a bank of resonators to the notes you choose. Run drums, noise, vocals or pads through it and they start to ring in key. Pick the notes by hand on the keyboard, set a chord or scale in one step, or play them live over MIDI.',
     status: 'available',
     isNew: true,
-    downloadUrl: '#',
+    downloadUrl: 'https://github.com/n3tv01d-jp/SpectraShell/releases/latest',
     hue: 262,
-    controls: ['Low', 'Mid', 'High', 'Drive', 'Mix'],
+    controls: ['Decay', 'Bright', 'Width', 'Low Cut', 'Mix'],
     features: [
-      { title: 'Three bands, three characters.', body: 'Pick tape, tube, or fold for each band and dial in exactly where the grit goes.' },
-      { title: 'Dynamic crossover.', body: 'Drag the band splits on the live spectrum. Changes are phase-coherent, so the low end stays tight.' },
-      { title: 'Auto gain that works.', body: 'Loudness-matched output means you hear tone, not volume.' },
+      {
+        title: 'Up to 48 voices, in tune.',
+        body: 'Up to 12 notes across 4 stacked octaves, each driving its own comb resonator. Tuning compensates for the damping filter, so notes stay within about 0.5 cent at any brightness.',
+      },
+      {
+        title: 'Play it over MIDI.',
+        body: 'Choose Manual, MIDI, or both. MIDI notes fold to pitch classes, so the Octave and Stack knobs keep control of the register.',
+      },
+      {
+        title: 'Full or Hollow.',
+        body: 'Full rings with every harmonic for a bright, string-like tone. Hollow keeps odd harmonics only for a woody, clarinet-like color.',
+      },
     ],
-    highlights: commonHighlights,
+    highlights: [
+      { title: 'Zero latency', body: 'No added delay, so it works for tracking and live use.' },
+      { title: 'Light on CPU', body: 'About 0.3 % of one core for a typical triad, and idle voices use nothing.' },
+      { title: 'Chords and scales', body: 'Set the keyboard to triads, 7ths, modes or pentatonics with a root and one click.' },
+      { title: 'Stereo width', body: 'Detune left against right to spread the resonance across the stereo field.' },
+      { title: 'Works under Wine', body: 'Includes fixes so the Windows build displays and runs correctly on Linux via Wine.' },
+      { title: 'Open source', body: 'Free and licensed under AGPLv3. The source is on GitHub.' },
+    ],
   },
   {
-    slug: 'halo',
-    name: 'Halo',
-    category: 'Shimmer Reverb',
-    summary: 'Lush, pitch-shifted reverb tails that bloom behind pads, vocals and keys.',
-    headline: 'Space with a glow.',
+    slug: 'spectradrive',
+    name: 'SpectraDrive',
+    category: 'Harmonic Distortion',
+    summary: 'Five saturation curves, from warm tube to wavefolder, with live harmonic displays.',
+    headline: 'See the harmonics you add.',
     description:
-      'Halo is a shimmer reverb tuned for modern production. Octave and fifth shifters feed back into a dense diffusion network for tails that rise instead of fade.',
+      'SpectraDrive pushes audio through one of five saturation curves: Tube, Tape, Diode, Hard and Fold. Displays show the curve, where your signal sits on it, and which harmonics it adds, so you can dial in grit by eye as well as by ear.',
     status: 'available',
-    downloadUrl: '#',
-    hue: 200,
-    controls: ['Size', 'Shimmer', 'Tone', 'Decay', 'Mix'],
+    isNew: true,
+    downloadUrl: 'https://github.com/n3tv01d-jp/SpectraDrive/releases/latest',
+    hue: 28,
+    controls: ['Drive', 'Even', 'Tone', 'Clean Lows', 'Mix'],
     features: [
-      { title: 'Shimmer you can tune.', body: 'Choose octave, fifth or both, and set exactly how much feeds back into the tail.' },
-      { title: 'Ducking built in.', body: 'The tail pulls back while the source plays and blooms in the gaps.' },
-      { title: 'Freeze.', body: 'Hold the current tail forever and play over it as a drone.' },
+      {
+        title: 'Even and odd, on one knob.',
+        body: 'The Even knob biases the curve to blend in 2nd, 4th and higher even harmonics. The offset is removed afterwards, and a DC blocker follows the shaper.',
+      },
+      {
+        title: 'Clean Lows.',
+        body: 'A Linkwitz-Riley crossover sends the lows around the distortion, so the kick and sub stay tight while the highs get the grit.',
+      },
+      {
+        title: 'Up to 4x oversampling.',
+        body: 'Linear-phase oversampling cuts aliasing from a hard-driven 7 kHz tone from -18 dB to -86 dB. Latency is reported to the host, so your DAW lines it up.',
+      },
     ],
-    highlights: commonHighlights,
-  },
-  {
-    slug: 'pulse',
-    name: 'Pulse',
-    category: 'Rhythmic Gate',
-    summary: 'A step-sequenced gate and stutter for movement in any sustained sound.',
-    headline: 'Give it a heartbeat.',
-    description:
-      'Pulse turns static pads and chords into rhythmic parts. Draw a pattern, add swing, and let Pulse chop your audio in time with the host.',
-    status: 'available',
-    downloadUrl: '#',
-    hue: 80,
-    controls: ['Rate', 'Swing', 'Attack', 'Release', 'Depth'],
-    features: [
-      { title: 'Draw your groove.', body: 'Up to 32 steps per pattern, each with its own level and length.' },
-      { title: 'Host synced.', body: 'Locks to your DAW tempo, from 1/1 to 1/64 triplets.' },
-      { title: 'Free, for real.', body: 'No sign-up wall, no time limit. Just download and use it.' },
+    highlights: [
+      { title: 'Five modes', body: 'Tube, Tape, Diode, Hard clip and a sine wavefolder.' },
+      { title: 'Auto gain', body: 'Output matches the input loudness, so you compare tone, not volume.' },
+      { title: 'Parallel mix', body: 'The dry path is delay-aligned, so blending in the wet signal causes no comb filtering.' },
+      { title: 'Light on CPU', body: 'About 0.25 % of one core at 1x and 0.65 % at 4x.' },
+      { title: 'Works under Wine', body: 'Includes fixes so the Windows build displays and runs correctly on Linux via Wine.' },
+      { title: 'Open source', body: 'Free and licensed under AGPLv3. The source is on GitHub.' },
     ],
-    highlights: commonHighlights,
   },
   {
     slug: 'next',
